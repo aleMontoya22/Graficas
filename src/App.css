@@ -31,10 +31,15 @@
   width: 80%;
   margin: 0 auto;
   position: relative;
-  height: 400px; /* Fija la altura del contenedor */
+  height: 400px; 
 }
 
 .graph-container canvas {
-  height: 100% !important; /* Asegúrate de que el canvas ocupe el 100% de la altura del contenedor */
+  height: 100% !important; 
   max-height: 100%;
+}
+
+.home-container {
+  padding: 20px;
+  text-align: center;
 }
