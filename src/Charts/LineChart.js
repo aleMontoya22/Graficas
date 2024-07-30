@@ -93,7 +93,8 @@ const LineChart = () => {
   }
 
   return (
-    <div>
+    <div className="graph-container">
+    <h1>Gráfica de lineas</h1>
       <Line
         data={data}
         height={400}

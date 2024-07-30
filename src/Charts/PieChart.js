@@ -78,7 +78,8 @@ const PieChart = () => {
   }
 
   return (
-    <div>
+    <div className="graph-container">
+    <h1>Gráfico circular</h1>
       <Pie
         data={data}
         height={400}

@@ -8,7 +8,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 
 const DoughnutChart = () => {
-  const [chart, setChart] = useState({})
+  const [chart, setChart] = useState({coins: []})
   var baseUrl = "https://api.coinranking.com/v2/coins/?limit=10";
   var proxyUrl = "https://cors-anywhere.herokuapp.com/";
   var apiKey = "coinranking54d697368ffdd381a94952dcb55515fa041fa2712c2dcbe3";
@@ -17,33 +17,33 @@ const DoughnutChart = () => {
 
   useEffect(() => {
     const fetchCoins = async () => {
-      await fetch(`${proxyUrl}${baseUrl}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': `${apiKey}`,
-          'Access-Control-Allow-Origin': "*"
-        }
-      })
-        .then((response) => {
+      try {
+          const response = await fetch(`${proxyUrl}${baseUrl}`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'x-access-token': `${apiKey}`,
+                  'Access-Control-Allow-Origin': "*"
+              }
+          });
           if (response.ok) {
-            response.json().then((json) => {
-              console.log(json.data);
-              setChart(json.data)
-            });
+              const json = await response.json();
+              setChart(json.data);
+          } else {
+              console.error("Response not OK:", response.status);
           }
-        }).catch((error) => {
-          console.log(error);
-        });
-    };
-    fetchCoins()
+      } catch (error) {
+          console.error("Fetch error:", error);
+      }
+  };
+    fetchCoins();
   }, [baseUrl, proxyUrl, apiKey])
 
   console.log("chart", chart);
   var data = {
     labels: chart?.coins?.map(x => x.name),
     datasets: [{
-      label: `${chart?.coins?.length} Coins Available`,
+      label: `${chart.coins.length} Coins Available`,
       data: chart?.coins?.map(x => x.price),
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -77,12 +77,11 @@ const DoughnutChart = () => {
   }
 
   return (
-    <div>
+    <div className="graph-container">
+    <h1>Gráfica de dona</h1>
       <Doughnut
         data={data}
-        height={400}
         options={options}
-
       />
     </div>
   )
